@@ -1,8 +1,10 @@
 import React from "react";
+import Guess from "../Guess/Guess";
 
 function GuessInput() {
   const [guess, setGuess] = React.useState("");
   const [previousGuesses, setPreviousGuesses] = React.useState([]);
+  const [numberOfTries, setNumberOfTries] = React.useState(6);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -21,6 +23,15 @@ function GuessInput() {
 
   return (
     <>
+      <div>
+        Number of guesses left: <b>{numberOfTries - previousGuesses.length}</b>
+      </div>
+      <div>
+        <Guess
+          numberOfTries={numberOfTries}
+          previousGuesses={previousGuesses}
+        />
+      </div>
       <form className="guess-input-wrapper" onSubmit={handleSubmit}>
         <label htmlFor="guess-input">Enter your guess:</label>
         <input
@@ -29,23 +40,12 @@ function GuessInput() {
           value={guess}
           minLength={5}
           maxLength={5}
+          disabled={previousGuesses.length >= numberOfTries}
           onChange={(event) => {
             setGuess(event.target.value.toUpperCase());
           }}
         />
       </form>
-      <div>
-        <h3>Previous guesses:</h3>
-        <div>
-          {previousGuesses.map((guess) => {
-            return (
-              <label key={guess.id} className="guess">
-                {guess.guess}
-              </label>
-            );
-          })}
-        </div>
-      </div>
     </>
   );
 }
