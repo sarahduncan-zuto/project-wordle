@@ -13,6 +13,23 @@ function Guess({ numberOfTries, previousGuesses }) {
 
   return (
     <>
+      {isFullGuessCorrect && (
+        <div className="happy banner">
+          <p>
+            <strong>Congratulations!</strong> Got it in{" "}
+            <strong>{previousGuesses.length} guesses</strong>.
+          </p>
+        </div>
+      )}
+
+      {!isFullGuessCorrect && isGameOver && (
+        <div className="sad banner">
+          <p>
+            Sorry, the correct answer is <strong>{answer}</strong>.
+          </p>
+        </div>
+      )}
+
       <div className="guess-results">
         {[...Array(numberOfTries)].map((_, index) => {
           const guessObj = previousGuesses[index];
@@ -36,23 +53,6 @@ function Guess({ numberOfTries, previousGuesses }) {
           );
         })}
       </div>
-
-      {isFullGuessCorrect && (
-        <div className="happy banner">
-          <p>
-            <strong>Congratulations!</strong> Got it in{" "}
-            <strong>{previousGuesses.length} guesses</strong>.
-          </p>
-        </div>
-      )}
-
-      {!isFullGuessCorrect && previousGuesses.length >= numberOfTries && (
-        <div className="sad banner">
-          <p>
-            Sorry, the correct answer is <strong>{answer}</strong>.
-          </p>
-        </div>
-      )}
     </>
   );
 }
